@@ -220,10 +220,14 @@ h1, h2, h3, h4,
   100% { box-shadow: 0 0 0 0 rgba(21, 188, 214, 0); }
 }
 .hero__title {
-  font-size: clamp(2.3rem, 5.2vw, 4.1rem);
-  font-weight: 800; line-height: 1.16; letter-spacing: -0.02em;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 800; line-height: 1.25; letter-spacing: -0.02em;
   color: var(--head);
 }
+/* Each phrase on its own line, so the headline never breaks mid-phrase. */
+.hero__title-line { display: block; text-wrap: balance; }
+/* English words are longer — a slightly smaller size keeps it to two lines. */
+html[lang="en"] .hero__title { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
 .hero__subtitle { margin-top: 22px; font-size: clamp(1.05rem, 2vw, 1.28rem); color: var(--muted); max-width: 520px; }
 .hero__actions { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
 

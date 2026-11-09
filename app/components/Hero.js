@@ -13,7 +13,14 @@ export default function Hero({ t }) {
             <span className="hero__badge-dot" aria-hidden="true" />
             {t.hero.badge}
           </span>
-          <h1 className="hero__title">{t.hero.title}</h1>
+          <h1 className="hero__title">
+            {t.hero.titleLines.map((line, i) => (
+              <span key={line} className="hero__title-line">
+                {i > 0 && ' '}
+                {line}
+              </span>
+            ))}
+          </h1>
           <p className="hero__subtitle">{t.hero.subtitle}</p>
 
           <div className="hero__actions">

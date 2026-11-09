@@ -52,6 +52,9 @@ export const content = {
     hero: {
       badge: 'جودة سورية موثوقة',
       title: 'رائدون في صناعة المنظفات عالية الجودة',
+      // Where the headline breaks — split on natural phrases. The non-breaking
+      // space ( ) keeps "في" glued to the next word on narrow screens.
+      titleLines: ['رائدون في صناعة', 'المنظفات عالية الجودة'],
       subtitle: 'نفتخر بتقديم أفضل العلامات التجارية في عالم المنظفات والعناية المنزلية',
       ctaProducts: 'تصفّح المنتجات',
       ctaContact: 'تواصل معنا',
@@ -181,6 +184,7 @@ export const content = {
     hero: {
       badge: 'Trusted Syrian quality',
       title: 'Leaders in high-quality detergent manufacturing',
+      titleLines: ['Leaders in high-quality', 'detergent manufacturing'],
       subtitle: 'Proud to offer the finest brands in the world of cleaning and home care',
       ctaProducts: 'Browse Products',
       ctaContact: 'Contact Us',
