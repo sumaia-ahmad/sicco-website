@@ -1,6 +1,7 @@
 'use client'
 
 import { shared } from '../data/content'
+import { buildMessage, whatsappUrl, mailtoUrl } from '../lib/contactLinks'
 
 /**
  * No-backend contact form. The visitor fills it in, then either:
@@ -12,21 +13,23 @@ export default function ContactForm({ t }) {
   const L = t.contact.form
 
   const buildText = (form) =>
-    `${L.name}: ${form.name.value.trim()}\n${L.email}: ${form.email.value.trim()}\n${L.message}: ${form.message.value.trim()}`
+    buildMessage(L, {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value,
+    })
 
   const handleWhatsapp = (e) => {
     e.preventDefault()
     const form = e.currentTarget
     if (!form.reportValidity()) return
-    const url = `https://wa.me/${shared.whatsapp}?text=${encodeURIComponent(buildText(form))}`
-    window.open(url, '_blank', 'noopener,noreferrer')
+    window.open(whatsappUrl(shared.whatsapp, buildText(form)), '_blank', 'noopener,noreferrer')
   }
 
   const handleEmail = (e) => {
     const form = e.currentTarget.closest('form')
     if (!form.reportValidity()) return
-    const url = `mailto:${shared.email}?subject=${encodeURIComponent(L.subject)}&body=${encodeURIComponent(buildText(form))}`
-    window.location.href = url
+    window.location.href = mailtoUrl(shared.email, L.subject, buildText(form))
   }
 
   return (

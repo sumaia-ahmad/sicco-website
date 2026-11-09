@@ -25,6 +25,7 @@ The site presents the company's brands, products, production divisions, quality 
 - `next/font` for self-hosted fonts (**Cairo** for headings, **Tajawal** for body)
 - `next/image` for optimized images
 - Plain CSS with a custom design-token system (no UI framework)
+- Playwright for unit and end-to-end tests
 
 ---
 
@@ -53,10 +54,34 @@ app/
 ├─ icon.png             # favicon
 ├─ data/
 │  └─ content.js        # ALL site text (ar/en) + shared data — edit here
+├─ lib/
+│  └─ contactLinks.js   # builds WhatsApp / email links (unit-tested)
 └─ components/          # Header, Hero, Stats, Brands, About, Products,
                         # WhyUs, Certifications, Partners, Contact, Footer, …
 public/images/          # logo, product packshots, factory photo, cert logos
+tests/                  # Playwright unit + end-to-end tests
 ```
+
+## 🧪 Testing
+
+Automated tests use [Playwright](https://playwright.dev/) and run against the real
+production build in Google Chrome (the locally installed Chrome — no extra browser download).
+
+```bash
+npm test              # builds the site, starts it on port 3100, runs all tests
+npm run test:report   # opens the HTML report of the last run
+```
+
+**20 tests** in two files:
+
+| File | Type | What it checks |
+|------|------|----------------|
+| `tests/contact-links.spec.js` | Unit | WhatsApp & email links are built correctly (Arabic text, new lines and symbols are URL-encoded) |
+| `tests/site.spec.js` | End-to-end | Page loads with no console errors · starts in Arabic/RTL · hero image loads · language toggle flips AR⇄EN and RTL⇄LTR · each brand filter shows only its products · every header/footer link reaches an existing section · contact form builds the right WhatsApp message · empty form is blocked · phone/fax/email shown · mobile: no horizontal scroll and the menu opens/closes |
+
+Expected values are read from `app/data/content.js`, so the tests keep working when the content changes.
+
+---
 
 ## ✏️ Editing content
 
