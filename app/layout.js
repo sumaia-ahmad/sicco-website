@@ -1,4 +1,4 @@
-import { Tajawal, Cairo } from 'next/font/google'
+import { Tajawal, Readex_Pro } from 'next/font/google'
 import './globals.css'
 
 // Tajawal: a clean Arabic + Latin font for body text. Self-hosted via next/font.
@@ -9,12 +9,12 @@ const tajawal = Tajawal({
   display: 'swap',
 })
 
-// Cairo: a stronger display face used for headings — gives the brand a more
-// distinctive, premium personality than the body font alone.
-const cairo = Cairo({
+// Readex Pro: a bold, wide display face used for headings — gives the brand a
+// strong, confident presence next to the body font.
+const readex = Readex_Pro({
   subsets: ['arabic', 'latin'],
-  weight: ['700', '800', '900'],
-  variable: '--font-cairo',
+  weight: ['600', '700'],
+  variable: '--font-readex',
   display: 'swap',
 })
 
@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
   // lang/dir default to Arabic (RTL). The language toggle updates these on the
   // client; the server render stays Arabic so search engines index Arabic.
   return (
-    <html lang="ar" dir="rtl" className={`${tajawal.variable} ${cairo.variable}`}>
+    <html lang="ar" dir="rtl" className={`${tajawal.variable} ${readex.variable}`}>
       <body>{children}</body>
     </html>
   )

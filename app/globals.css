@@ -32,7 +32,7 @@
   --shadow-lg: 0 30px 70px rgba(10, 39, 68, 0.14);
   --container: 1200px;
   --font: var(--font-tajawal), system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: var(--font-cairo), var(--font-tajawal), system-ui, sans-serif;
+  --font-display: var(--font-readex), var(--font-tajawal), system-ui, sans-serif;
 
   --grad-brand: linear-gradient(135deg, var(--blue-500), var(--blue-700));
 }
@@ -63,6 +63,8 @@ h1, h2, h3, h4,
   font-family: var(--font-display);
   letter-spacing: -0.015em;
 }
+/* Spread heading words evenly across lines (no lonely last word). */
+.hero__title, .section__title, .about__heading { text-wrap: balance; }
 
 /* ---------- Layout helpers ---------- */
 .container {
