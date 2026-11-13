@@ -38,7 +38,7 @@ export function siteMetadata(locale) {
       type: 'website',
       locale: c.ogLocale,
       url: alternates[locale].canonical,
-      images: ['/images/og.jpg'],
+      images: ['/images/brand-banner.jpg'],
     },
   }
 }

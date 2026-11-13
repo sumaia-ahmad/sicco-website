@@ -7,6 +7,8 @@ export const shared = {
   logo: '/images/logo.png',
   heroImage: '/images/hero.jpg',
   factory: '/images/factory.png',
+  // Hero visual + social-share image: product range next to the SICCO logo.
+  brandBanner: '/images/brand-banner.jpg',
   // Real accreditation logos (shown on the matching certification cards).
   certLogos: ['/images/certs/sgs.png', null, '/images/certs/sns.png', null],
   email: 'info@sicco-sy.com',

@@ -28,9 +28,9 @@ test.describe('Page load', () => {
     await expect(page.locator('h1')).toHaveText(content.ar.hero.title)
   })
 
-  test('hero product image actually loads', async ({ page }) => {
+  test('hero brand banner actually loads', async ({ page }) => {
     await page.goto('/')
-    const img = page.locator('.hero__product')
+    const img = page.locator('.hero__banner')
     await expect(img).toBeVisible()
     const width = await img.evaluate((el) => el.naturalWidth)
     expect(width).toBeGreaterThan(0)

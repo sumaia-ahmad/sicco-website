@@ -2,8 +2,7 @@ import Image from 'next/image'
 import { shared } from '../data/content'
 
 export default function Hero({ t }) {
-  // Flagship packshot (Super White) carries the hero visual.
-  const heroProduct = shared.products[0].image
+  const isAr = t.dir === 'rtl'
 
   return (
     <section id="home" className="hero">
@@ -36,31 +35,30 @@ export default function Hero({ t }) {
 
         <div className="hero__visual">
           <span className="hero__glow" aria-hidden="true" />
-          <div className="hero__ring hero__ring--1" aria-hidden="true" />
-          <div className="hero__ring hero__ring--2" aria-hidden="true" />
+          {/* Brand banner: most of the product range next to the SICCO logo. */}
           <Image
-            src={heroProduct}
-            alt="Super White"
-            width={514}
-            height={600}
+            src={shared.brandBanner}
+            alt={isAr ? 'منتجات SICCO بجانب شعار الشركة' : 'SICCO products next to the company logo'}
+            width={2200}
+            height={1333}
             priority
-            // Real on-screen width (~310px on phones, ~400px on desktop), so
-            // phones download a ~640px file instead of the 1080px one.
-            sizes="(max-width: 480px) 310px, 400px"
-            className="hero__product"
+            // Rendered ~92% of the screen width on phones/tablets, ~560px on desktop.
+            sizes="(max-width: 1000px) 92vw, 560px"
+            className="hero__banner"
           />
 
-          {/* floating premium cards */}
+          {/* floating premium cards — pinned to the banner's left corners so
+              they never cover the SICCO logo on its right side */}
           <div className="hero__float hero__float--top">
             <span className="hero__float-badge" aria-hidden="true">✦</span>
             <div>
               <strong>ISO 9001</strong>
-              <small>{t.about.title === 'من نحن' ? 'جودة معتمدة' : 'Certified quality'}</small>
+              <small>{isAr ? 'جودة معتمدة' : 'Certified quality'}</small>
             </div>
           </div>
           <div className="hero__float hero__float--bottom">
             <strong>+30</strong>
-            <small>{t.about.title === 'من نحن' ? 'سنة خبرة' : 'years'}</small>
+            <small>{isAr ? 'سنة خبرة' : 'years'}</small>
           </div>
         </div>
       </div>

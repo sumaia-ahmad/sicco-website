@@ -9,7 +9,7 @@ The site presents the company's brands, products, production divisions, quality 
 ## ✨ Features
 
 - **Bilingual, two real pages** — Arabic at `/` (RTL) and English at `/en` (LTR), both pre-rendered and linked with `hreflang` so Google indexes each language.
-- **Editorial, responsive design** — a split hero with the flagship product, a soft mesh-gradient background, and a consistent card system.
+- **Editorial, responsive design** — a split hero with the brand banner (product range + SICCO logo), a soft mesh-gradient background, and a consistent card system.
 - **Scroll reveals & animated counters** — content fades in on scroll; stats count up when they enter view.
 - **Product filtering** — browse products by brand (Super White / Prince / Fami).
 - **Real credibility** — company photo, and real accreditation logos (SGS ISO 9001, SNS).
