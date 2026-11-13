@@ -13,7 +13,7 @@ export default function Footer({ t }) {
         </div>
 
         <nav className="footer__col">
-          <h4 className="footer__title">{t.footer.linksTitle}</h4>
+          <h3 className="footer__title">{t.footer.linksTitle}</h3>
           <div className="footer__nav">
             {navKeys.map((key) => (
               <a key={key} href={`#${key}`}>{t.nav[key]}</a>
@@ -22,7 +22,7 @@ export default function Footer({ t }) {
         </nav>
 
         <div className="footer__col">
-          <h4 className="footer__title">{t.footer.contactTitle}</h4>
+          <h3 className="footer__title">{t.footer.contactTitle}</h3>
           <ul className="footer__contact">
             <li>
               <a href={`tel:${shared.phoneHref}`} dir="ltr">{shared.phone}</a>

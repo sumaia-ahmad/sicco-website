@@ -520,7 +520,7 @@ html[lang="en"] .hero__title { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
   color: var(--soft); transition: transform .25s, box-shadow .25s, color .25s, border-color .25s, background .25s;
 }
 .partner:hover { transform: translateY(-5px); color: var(--blue-500); border-color: var(--blue-300); background: #fff; box-shadow: var(--shadow-sm); }
-.partners__note { margin-top: 24px; text-align: center; color: var(--soft); font-size: .9rem; }
+.partners__note { margin-top: 24px; text-align: center; color: var(--muted); font-size: .9rem; }
 
 /* ============================================================
    News
