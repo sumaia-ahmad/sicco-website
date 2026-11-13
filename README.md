@@ -8,13 +8,14 @@ The site presents the company's brands, products, production divisions, quality 
 
 ## ✨ Features
 
-- **Bilingual, one toggle** — the whole page flips between Arabic (RTL) and English (LTR), text and layout direction included.
+- **Bilingual, two real pages** — Arabic at `/` (RTL) and English at `/en` (LTR), both pre-rendered and linked with `hreflang` so Google indexes each language.
 - **Editorial, responsive design** — a split hero with the flagship product, a soft mesh-gradient background, and a consistent card system.
 - **Scroll reveals & animated counters** — content fades in on scroll; stats count up when they enter view.
 - **Product filtering** — browse products by brand (Super White / Prince / Fami).
 - **Real credibility** — company photo, and real accreditation logos (SGS ISO 9001, SNS).
 - **Working contact** — a form that sends via **WhatsApp** or **email** (no backend needed) plus a floating WhatsApp button and an embedded map.
-- **SEO-ready** — metadata, Open Graph tags and a favicon.
+- **SEO-ready** — per-language metadata, canonical + hreflang tags, Open Graph, favicon and a 404 page.
+- **Lighthouse** — 100 for Accessibility, Best Practices and SEO; Performance 100 on desktop and ~86–88 on throttled mobile.
 
 ---
 
@@ -48,16 +49,21 @@ npm run build && npm start
 
 ```
 app/
-├─ layout.js            # <html> shell, fonts, SEO metadata
-├─ page.js              # single-page composition + language state
+├─ (ar)/layout.js       # Arabic root layout  → <html lang="ar" dir="rtl">, page "/"
+├─ (ar)/page.js
+├─ (en)/layout.js       # English root layout → <html lang="en" dir="ltr">, page "/en"
+├─ (en)/en/page.js
+├─ global-not-found.js  # bilingual 404 for unknown URLs
+├─ fonts.js             # Readex Pro (headings) + Tajawal (body)
 ├─ globals.css          # design tokens + all component styles
 ├─ icon.png             # favicon
 ├─ data/
 │  └─ content.js        # ALL site text (ar/en) + shared data — edit here
 ├─ lib/
+│  ├─ metadata.js       # SEO title/description, hreflang alternates per language
 │  └─ contactLinks.js   # builds WhatsApp / email links (unit-tested)
-└─ components/          # Header, Hero, Stats, Brands, About, Products,
-                        # WhyUs, Certifications, Partners, Contact, Footer, …
+└─ components/          # SitePage (server) + sections; only interactive parts
+                        # (menu, product filter, form, counters) ship JavaScript
 public/images/          # logo, product packshots, factory photo, cert logos
 tests/                  # Playwright unit + end-to-end tests
 ```
@@ -72,12 +78,12 @@ npm test              # builds the site, starts it on port 3100, runs all tests
 npm run test:report   # opens the HTML report of the last run
 ```
 
-**20 tests** in two files:
+**24 tests** in two files:
 
 | File | Type | What it checks |
 |------|------|----------------|
 | `tests/contact-links.spec.js` | Unit | WhatsApp & email links are built correctly (Arabic text, new lines and symbols are URL-encoded) |
-| `tests/site.spec.js` | End-to-end | Page loads with no console errors · starts in Arabic/RTL · hero image loads · language toggle flips AR⇄EN and RTL⇄LTR · each brand filter shows only its products · every header/footer link reaches an existing section · contact form builds the right WhatsApp message · empty form is blocked · phone/fax/email shown · mobile: no horizontal scroll and the menu opens/closes |
+| `tests/site.spec.js` | End-to-end | Page loads with no console errors · starts in Arabic/RTL · hero image loads · language button switches `/` ⇄ `/en` · English page is fully server-rendered · hreflang tags present · unknown URLs return a 404 · each brand filter shows only its products · every header/footer link reaches an existing section · contact form builds the right WhatsApp message · empty form is blocked · phone/fax/email shown · mobile: no horizontal scroll and the menu opens/closes |
 
 Expected values are read from `app/data/content.js`, so the tests keep working when the content changes.
 

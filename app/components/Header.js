@@ -15,7 +15,7 @@ const sectionIds = {
   contact: 'contact',
 }
 
-export default function Header({ t, onToggleLocale }) {
+export default function Header({ t }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -46,13 +46,14 @@ export default function Header({ t, onToggleLocale }) {
           <a href="#contact" className="btn btn--primary order-btn" onClick={() => setOpen(false)}>
             {t.orderNow}
           </a>
-          <button type="button" className="lang-btn" onClick={onToggleLocale}>
+          {/* The other language is its own page (/ ⇄ /en), so this is a real link. */}
+          <a href={t.langHref} hrefLang={t.langCode} lang={t.langCode} className="lang-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
               <path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18" stroke="currentColor" strokeWidth="1.8" />
             </svg>
             {t.langButton}
-          </button>
+          </a>
           <button
             type="button"
             className={`menu-btn ${open ? 'menu-btn--open' : ''}`}

@@ -48,6 +48,8 @@ export const content = {
       contact: 'تواصل معنا',
     },
     langButton: 'English',
+    langHref: '/en',
+    langCode: 'en',
     orderNow: 'اطلب الآن',
     hero: {
       badge: 'جودة سورية موثوقة',
@@ -180,6 +182,8 @@ export const content = {
       contact: 'Contact',
     },
     langButton: 'عربي',
+    langHref: '/',
+    langCode: 'ar',
     orderNow: 'Order Now',
     hero: {
       badge: 'Trusted Syrian quality',

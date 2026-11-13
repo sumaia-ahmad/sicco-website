@@ -37,20 +37,52 @@ test.describe('Page load', () => {
   })
 })
 
-test.describe('Language toggle', () => {
-  test('switches to English (LTR) and back to Arabic (RTL)', async ({ page }) => {
+test.describe('Languages (/ = Arabic, /en = English)', () => {
+  test('language button goes to /en (English, LTR) and back to / (Arabic, RTL)', async ({ page }) => {
     await page.goto('/')
     const html = page.locator('html')
 
     await page.locator('.lang-btn').click()
+    await expect(page).toHaveURL(/\/en$/)
     await expect(html).toHaveAttribute('lang', 'en')
     await expect(html).toHaveAttribute('dir', 'ltr')
     await expect(page.locator('h1')).toHaveText(content.en.hero.title)
 
     await page.locator('.lang-btn').click()
+    await expect(page).toHaveURL(/\/$/)
     await expect(html).toHaveAttribute('lang', 'ar')
     await expect(html).toHaveAttribute('dir', 'rtl')
     await expect(page.locator('h1')).toHaveText(content.ar.hero.title)
+  })
+
+  test('English page is complete in the server HTML (what Google reads)', async ({ request }) => {
+    const html = await (await request.get('/en')).text()
+    expect(html).toContain('<html lang="en" dir="ltr"')
+    expect(html).toContain('Leaders in')
+    // (avoid text with "&" — HTML escapes it as &amp;)
+    expect(html).toContain('Founded in 1991')
+    expect(html).toContain('Investment Law No. 10')
+  })
+
+  test('each page tells Google about its other-language version (hreflang)', async ({ page }) => {
+    for (const path of ['/', '/en']) {
+      await page.goto(path)
+      await expect(page.locator('link[rel="alternate"][hreflang="ar"]')).toHaveAttribute('href', /sicco-sy\.com\/?$/)
+      await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute('href', /sicco-sy\.com\/en$/)
+    }
+  })
+
+  test('product filter also works on the English page', async ({ page }) => {
+    await page.goto('/en')
+    await page.locator('.filter__chip', { hasText: 'Prince' }).click()
+    await expect(page.locator('.product-card')).toHaveCount(countByBrand('prince'))
+  })
+
+  test('unknown URL shows the 404 page', async ({ page }) => {
+    const res = await page.goto('/no-such-page')
+    expect(res.status()).toBe(404)
+    await expect(page.locator('h1')).toHaveText('الصفحة غير موجودة')
+    await expect(page.locator('a[href="/"]')).toBeVisible()
   })
 })
 

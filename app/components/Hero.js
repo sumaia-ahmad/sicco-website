@@ -44,6 +44,9 @@ export default function Hero({ t }) {
             width={514}
             height={600}
             priority
+            // Real on-screen width (~310px on phones, ~400px on desktop), so
+            // phones download a ~640px file instead of the 1080px one.
+            sizes="(max-width: 480px) 310px, 400px"
             className="hero__product"
           />
 
