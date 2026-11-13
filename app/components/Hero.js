@@ -35,7 +35,7 @@ export default function Hero({ t }) {
 
         <div className="hero__visual">
           <span className="hero__glow" aria-hidden="true" />
-          {/* Brand banner: most of the product range next to the SICCO logo. */}
+          {/* Brand banner (product range + SICCO logo) in an organic bubble shape */}
           <Image
             src={shared.brandBanner}
             alt={isAr ? 'منتجات SICCO بجانب شعار الشركة' : 'SICCO products next to the company logo'}
@@ -47,18 +47,19 @@ export default function Hero({ t }) {
             className="hero__banner"
           />
 
-          {/* floating premium cards — pinned to the banner's left corners so
-              they never cover the SICCO logo on its right side */}
-          <div className="hero__float hero__float--top">
+          {/* Brand bubbles — echo the bubbles in the SICCO logo */}
+          <span className="hero__bubble hero__bubble--1" aria-hidden="true" />
+          <span className="hero__bubble hero__bubble--2" aria-hidden="true" />
+          <span className="hero__bubble hero__bubble--3" aria-hidden="true" />
+          <span className="hero__bubble hero__bubble--4" aria-hidden="true" />
+
+          {/* ISO card — bottom-left, away from the logo on the banner's right */}
+          <div className="hero__float hero__float--iso">
             <span className="hero__float-badge" aria-hidden="true">✦</span>
             <div>
               <strong>ISO 9001</strong>
               <small>{isAr ? 'جودة معتمدة' : 'Certified quality'}</small>
             </div>
-          </div>
-          <div className="hero__float hero__float--bottom">
-            <strong>+30</strong>
-            <small>{isAr ? 'سنة خبرة' : 'years'}</small>
           </div>
         </div>
       </div>

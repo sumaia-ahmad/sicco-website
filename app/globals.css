@@ -239,10 +239,22 @@ html[lang="en"] .hero__title { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
 .hero__banner {
   position: relative; z-index: 2;
   width: 100%; height: auto; display: block;
-  border-radius: var(--radius-lg);
-  border: 6px solid #fff;
+  /* organic bubble outline — gentle enough to keep the logo and products whole */
+  border-radius: 34% 66% 40% 60% / 48% 38% 62% 52%;
+  border: 7px solid #fff;
   box-shadow: var(--shadow-lg);
 }
+/* Glossy brand bubbles (physical left/right: the banner is never mirrored) */
+.hero__bubble {
+  position: absolute; z-index: 3; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 32% 30%, #fff 0 8%, rgba(41, 171, 226, .92) 10%, var(--blue-700));
+  box-shadow: 0 10px 24px rgba(14, 90, 167, .3);
+  animation: bob 7s ease-in-out infinite;
+}
+.hero__bubble--1 { width: 62px; height: 62px; top: -2%; left: 3%; }
+.hero__bubble--2 { width: 30px; height: 30px; top: 16%; left: -4%; opacity: .85; animation-delay: 1.2s; }
+.hero__bubble--3 { width: 18px; height: 18px; bottom: 12%; right: 0; opacity: .8; animation-delay: 2.4s; }
+.hero__bubble--4 { width: 42px; height: 42px; bottom: -4%; right: 12%; animation-delay: .6s; }
 @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
 .hero__float {
@@ -253,13 +265,11 @@ html[lang="en"] .hero__title { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
   display: flex; align-items: center; gap: 12px;
   animation: bob 6s ease-in-out infinite;
 }
-/* Physical left/right on purpose: the banner image is not mirrored in Arabic,
-   and its SICCO logo sits in the top-right corner. */
-.hero__float--top { top: -26px; left: -22px; animation-delay: .6s; }
-.hero__float--bottom { bottom: -26px; right: -18px; flex-direction: column; gap: 0; text-align: center; animation-delay: 1.4s; }
+/* Physical left on purpose: the banner image is not mirrored in Arabic,
+   and its SICCO logo sits on the right. */
+.hero__float--iso { bottom: -38px; left: 2%; animation-delay: .6s; }
 .hero__float strong { display: block; color: var(--head); font-size: 1.15rem; font-weight: 800; line-height: 1.1; }
 .hero__float small { display: block; color: var(--muted); font-size: .82rem; }
-.hero__float--bottom strong { font-size: 1.7rem; color: var(--blue-600); }
 .hero__float-badge {
   display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px;
   background: var(--grad-brand); color: #fff; font-size: 1.1rem; flex-shrink: 0;
@@ -574,10 +584,9 @@ html[lang="en"] .hero__title { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
   .nav a::after { display: none; }
   .brands__grid, .why__grid { grid-template-columns: 1fr; }
   .hero__float { padding: 10px 14px; }
-  .hero__float--top { top: -20px; left: -6px; }
-  /* "+30 years" is repeated in the stats band right below — hide it on
-     phones so the card doesn't cover the products. */
-  .hero__float--bottom { display: none; }
+  .hero__float--iso { bottom: -34px; left: 0; }
+  .hero__bubble--1 { width: 44px; height: 44px; }
+  .hero__bubble--4 { width: 30px; height: 30px; }
   .stats-band__grid { grid-template-columns: repeat(2, 1fr); gap: 30px 16px; }
   .stat-item + .stat-item { border-inline-start: none; }
   .order-btn { display: none; }
@@ -592,7 +601,6 @@ html[lang="en"] .hero__title { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
   .section { padding-block: 70px; }
   .hero__float-badge { width: 32px; height: 32px; font-size: .95rem; }
   .hero__float strong { font-size: 1rem; }
-  .hero__float--bottom strong { font-size: 1.35rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
