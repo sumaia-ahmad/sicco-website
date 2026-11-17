@@ -5,6 +5,13 @@ import { shared, content } from '../app/data/content.js'
 
 const countByBrand = (brand) => shared.products.filter((p) => p.brand === brand).length
 
+// A click that lands before React hydrates does nothing, so retry until the grid updates.
+const pickChip = (page, label, expectedCount) =>
+  expect(async () => {
+    await page.locator('.filter__chip', { hasText: label }).click()
+    await expect(page.locator('.product-card')).toHaveCount(expectedCount, { timeout: 1000 })
+  }).toPass()
+
 test.describe('Page load', () => {
   test('loads with no errors from the site in the console', async ({ page, baseURL }) => {
     const errors = []
@@ -28,12 +35,18 @@ test.describe('Page load', () => {
     await expect(page.locator('h1')).toHaveText(content.ar.hero.title)
   })
 
-  test('hero brand banner actually loads', async ({ page }) => {
+  test('hero showcase loads its first product and switches brand from the tabs', async ({ page }) => {
     await page.goto('/')
-    const img = page.locator('.hero__banner')
-    await expect(img).toBeVisible()
-    const width = await img.evaluate((el) => el.naturalWidth)
-    expect(width).toBeGreaterThan(0)
+    const first = page.locator('.showcase__slide--on .showcase__img')
+    await expect(first).toBeVisible()
+    expect(await first.evaluate((el) => el.naturalWidth)).toBeGreaterThan(0)
+
+    const tab = page.locator('.showcase__tab', { hasText: 'Fami' })
+    await expect(async () => {
+      await tab.click()
+      await expect(tab).toHaveAttribute('aria-pressed', 'true', { timeout: 1000 })
+    }).toPass()
+    await expect(page.locator('.showcase__desc')).toHaveText(content.ar.brands.items.fami.desc)
   })
 })
 
@@ -74,8 +87,7 @@ test.describe('Languages (/ = Arabic, /en = English)', () => {
 
   test('product filter also works on the English page', async ({ page }) => {
     await page.goto('/en')
-    await page.locator('.filter__chip', { hasText: 'Prince' }).click()
-    await expect(page.locator('.product-card')).toHaveCount(countByBrand('prince'))
+    await pickChip(page, 'Prince', countByBrand('prince'))
   })
 
   test('unknown URL shows the 404 page', async ({ page }) => {
@@ -97,10 +109,9 @@ test.describe('Product filter', () => {
 
     test(`"${name}" chip shows only ${name} products`, async ({ page }) => {
       await page.goto('/')
-      await page.locator('.filter__chip', { hasText: name }).click()
+      await pickChip(page, name, countByBrand(brand.id))
 
       const cards = page.locator('.product-card')
-      await expect(cards).toHaveCount(countByBrand(brand.id))
       for (const label of await cards.locator('.product-card__brand').allTextContents()) {
         expect(label).toBe(name)
       }
@@ -109,9 +120,8 @@ test.describe('Product filter', () => {
 
   test('"All" chip restores the full list', async ({ page }) => {
     await page.goto('/')
-    await page.locator('.filter__chip', { hasText: 'Fami' }).click()
-    await page.locator('.filter__chip', { hasText: content.ar.products.all }).click()
-    await expect(page.locator('.product-card')).toHaveCount(shared.products.length)
+    await pickChip(page, 'Fami', countByBrand('fami'))
+    await pickChip(page, content.ar.products.all, shared.products.length)
   })
 })
 
@@ -132,7 +142,11 @@ test.describe('Navigation', () => {
   test('removed "news" section is really gone', async ({ page }) => {
     await page.goto('/')
     await expect(page.locator('#news')).toHaveCount(0)
-    await expect(page.locator('#partners')).toHaveCount(1)
+  })
+
+  test('partners stay hidden until real logos arrive', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('#partners')).toHaveCount(0)
   })
 })
 

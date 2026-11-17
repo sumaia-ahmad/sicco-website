@@ -25,24 +25,26 @@ const icons = [
 
 export default function WhyUs({ t }) {
   return (
-    <section id="why" className="section">
-      <div className="container">
-        <Reveal className="section__head">
+    <section id="why" className="section why">
+      <div className="container why__layout">
+        <Reveal className="why__intro">
           <span className="eyebrow">Why SICCO</span>
           <h2 className="section__title">{t.why.title}</h2>
           <p className="section__subtitle">{t.why.subtitle}</p>
+          <a href="#contact" className="btn btn--primary why__cta">{t.hero.ctaContact}</a>
         </Reveal>
 
-        <div className="why__grid">
+        <ul className="why__list">
           {t.why.items.map((item, i) => (
-            <Reveal as="article" key={item.title} className="feature" delay={(i % 3) * 110}>
-              <span className="feature__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-              <span className="feature__icon" aria-hidden="true">{icons[i]}</span>
-              <h3 className="feature__title">{item.title}</h3>
-              <p className="feature__desc">{item.desc}</p>
+            <Reveal as="li" key={item.title} className="why__item" delay={i * 80}>
+              <span className="why__icon" aria-hidden="true">{icons[i]}</span>
+              <div>
+                <h3 className="why__name">{item.title}</h3>
+                <p className="why__desc">{item.desc}</p>
+              </div>
             </Reveal>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   )

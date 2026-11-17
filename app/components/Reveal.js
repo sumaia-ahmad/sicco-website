@@ -13,6 +13,14 @@ import { useRef, useEffect, useState } from 'react'
 export default function Reveal({ children, className = '', delay = 0, as: Tag = 'div' }) {
   const ref = useRef(null)
   const [shown, setShown] = useState(false)
+  const [settled, setSettled] = useState(false)
+
+  // Once the entrance has played, drop the stagger so hover effects respond instantly.
+  useEffect(() => {
+    if (!shown) return
+    const id = setTimeout(() => setSettled(true), delay + 1200)
+    return () => clearTimeout(id)
+  }, [shown, delay])
 
   useEffect(() => {
     const el = ref.current
@@ -34,7 +42,7 @@ export default function Reveal({ children, className = '', delay = 0, as: Tag = 
     <Tag
       ref={ref}
       className={`reveal ${shown ? 'reveal--in' : ''} ${className}`.trim()}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: settled ? '0ms' : `${delay}ms` }}
     >
       {children}
     </Tag>

@@ -7,7 +7,6 @@ import About from './About'
 import Products from './Products'
 import WhyUs from './WhyUs'
 import Certifications from './Certifications'
-import Partners from './Partners'
 import Contact from './Contact'
 import Footer from './Footer'
 import ScrollTop from './ScrollTop'
@@ -30,7 +29,6 @@ export default function SitePage({ locale }) {
         <Products t={t} />
         <WhyUs t={t} />
         <Certifications t={t} />
-        <Partners t={t} />
         <Contact t={t} />
       </main>
       <Footer t={t} />

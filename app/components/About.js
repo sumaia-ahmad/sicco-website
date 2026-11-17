@@ -8,13 +8,15 @@ export default function About({ t }) {
   return (
     <section id="about" className="section">
       <div className="container">
-        <Reveal className="section__head">
-          <span className="eyebrow">About SICCO</span>
-          <h2 className="section__title">{t.about.title}</h2>
-        </Reveal>
-
         <div className="about__top">
-          <Reveal className="about__media">
+          <Reveal className="about__text">
+            <span className="eyebrow">About SICCO</span>
+            <h2 className="section__title">{t.about.title}</h2>
+            <h3 className="about__heading">{t.about.heading}</h3>
+            <p className="about__body">{t.about.body}</p>
+          </Reveal>
+
+          <Reveal className="about__media" delay={120}>
             <Image
               src={shared.factory}
               alt={isAr ? 'مقر الشركة السورية للصناعات الكيميائية' : 'SICCO headquarters'}
@@ -27,22 +29,17 @@ export default function About({ t }) {
               <small>{isAr ? 'عام التأسيس' : 'Established'}</small>
             </span>
           </Reveal>
-
-          <Reveal className="about__text">
-            <h3 className="about__heading">{t.about.heading}</h3>
-            <p className="about__body">{t.about.body}</p>
-          </Reveal>
         </div>
 
-        <div className="about__depts">
+        <ol className="about__depts">
           {t.about.departments.map((dept, i) => (
-            <Reveal as="div" key={i} className="dept-card" delay={i * 90}>
-              <span className="dept-card__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-              <strong className="dept-card__name">{dept.name}</strong>
-              <span className="dept-card__desc">{dept.desc}</span>
+            <Reveal as="li" key={dept.name} className="dept" delay={i * 140}>
+              <span className="dept__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <strong className="dept__name">{dept.name}</strong>
+              <span className="dept__desc">{dept.desc}</span>
             </Reveal>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   )
