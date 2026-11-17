@@ -4,9 +4,12 @@ import { Tajawal, Readex_Pro } from 'next/font/google'
 // Tajawal: clean Arabic + Latin body text.
 export const tajawal = Tajawal({
   subsets: ['arabic', 'latin'],
-  weight: ['400', '500', '700', '800'],
+  // 500 is unused (fewer weights = fewer font files competing with the hero image).
+  weight: ['400', '700', '800'],
   variable: '--font-tajawal',
   display: 'swap',
+  // Note: preload:false here raised the mobile score ~2 points but caused a
+  // visible text jump on load (CLS 0 -> 0.045), so it stays preloaded.
 })
 
 // Readex Pro: bold, wide display face for headings.

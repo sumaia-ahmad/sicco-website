@@ -236,8 +236,8 @@ html[lang="en"] .hero__title { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
   animation-delay: calc(var(--i) * 90ms + 120ms);
 }
 @keyframes wordIn {
-  from { opacity: 0; transform: translateY(.45em); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: none; }
+  from { opacity: 0; transform: translateY(.45em); }
+  to { opacity: 1; transform: none; }
 }
 .hero__intro { animation: introIn .8s cubic-bezier(.2, .7, .2, 1) both; animation-delay: var(--d); }
 @keyframes introIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -309,6 +309,9 @@ html[lang="en"] .hero__title { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
   transform: scaleX(0); transform-origin: left;
 }
 [dir="rtl"] .showcase__fill { transform-origin: right; }
+/* Autoplay timer: when this finishes filling, the hero moves to the next brand. */
+.showcase__fill--run { animation: showcaseFill var(--slide-ms, 5000ms) linear forwards; }
+@keyframes showcaseFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* ============================================================
    Brands

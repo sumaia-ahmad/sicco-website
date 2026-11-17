@@ -22,6 +22,9 @@ export default function About({ t }) {
               alt={isAr ? 'مقر الشركة السورية للصناعات الكيميائية' : 'SICCO headquarters'}
               width={700}
               height={700}
+              // Shown ~540px wide on desktop, full width on phones — without this
+              // the browser fetched a 1920px file.
+              sizes="(max-width: 1000px) 92vw, 540px"
               className="about__photo"
             />
             <span className="about__media-badge">

@@ -16,8 +16,9 @@ const showcase = [
 export default function Hero({ t }) {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [reduced, setReduced] = useState(false)
-  const progressRef = useRef(null)
+  const [warm, setWarm] = useState(false)
   const stageRef = useRef(null)
 
   useEffect(() => {
@@ -28,26 +29,28 @@ export default function Hero({ t }) {
     return () => mq.removeEventListener('change', onChange)
   }, [])
 
-  // Autoplay with a progress bar; elapsed time only grows while not paused and the tab is visible.
+  // Fetch the other brands' images only after the page has finished loading,
+  // so on slow connections they don't compete with the first product (the LCP).
   useEffect(() => {
-    if (reduced) return
-    let elapsed = 0
-    let last = performance.now()
-    let frame
-    const tick = (now) => {
-      const dt = now - last
-      last = now
-      if (!paused && !document.hidden) elapsed += dt
-      if (progressRef.current) progressRef.current.style.transform = `scaleX(${Math.min(elapsed / SLIDE_MS, 1)})`
-      if (elapsed >= SLIDE_MS) {
-        setActive((i) => (i + 1) % showcase.length)
-        return
-      }
-      frame = requestAnimationFrame(tick)
+    if (document.readyState === 'complete') {
+      setWarm(true)
+      return
     }
-    frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
-  }, [active, paused, reduced])
+    const onLoad = () => setWarm(true)
+    window.addEventListener('load', onLoad, { once: true })
+    return () => window.removeEventListener('load', onLoad)
+  }, [])
+
+  // Pause the autoplay while the tab is in the background.
+  useEffect(() => {
+    const onVisibility = () => setHidden(document.hidden)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [])
+
+  // Autoplay is driven by the progress bar's CSS animation (no per-frame
+  // JavaScript): when the bar finishes filling, move to the next brand.
+  const next = () => setActive((i) => (i + 1) % showcase.length)
 
   const onMove = (e) => {
     if (reduced || !stageRef.current) return
@@ -127,16 +130,17 @@ export default function Hero({ t }) {
                 className={`showcase__slide ${i === active ? 'showcase__slide--on' : ''}`}
                 aria-hidden={i !== active}
               >
-                <Image
-                  src={s.image}
-                  alt={`${t.brands.items[s.brand].name} — ${t.brands.items[s.brand].desc}`}
-                  width={514}
-                  height={600}
-                  priority={i === 0}
-                  loading={i === 0 ? undefined : 'eager'}
-                  sizes="(max-width: 760px) 70vw, 400px"
-                  className="showcase__img"
-                />
+                {(i === 0 || warm || i === active) && (
+                  <Image
+                    src={s.image}
+                    alt={`${t.brands.items[s.brand].name} — ${t.brands.items[s.brand].desc}`}
+                    width={514}
+                    height={600}
+                    priority={i === 0}
+                    sizes="(max-width: 760px) 70vw, 400px"
+                    className="showcase__img"
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -164,7 +168,13 @@ export default function Hero({ t }) {
               >
                 <span className="showcase__tab-name">{t.brands.items[s.brand].name}</span>
                 <span className="showcase__bar" aria-hidden="true">
-                  {i === active && <span className="showcase__fill" ref={progressRef} />}
+                  {i === active && (
+                    <span
+                      className={`showcase__fill ${reduced ? '' : 'showcase__fill--run'}`}
+                      style={{ '--slide-ms': `${SLIDE_MS}ms`, animationPlayState: paused || hidden ? 'paused' : 'running' }}
+                      onAnimationEnd={next}
+                    />
+                  )}
                 </span>
               </button>
             ))}
