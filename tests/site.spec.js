@@ -50,6 +50,20 @@ test.describe('Page load', () => {
   })
 })
 
+test.describe('Without JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+
+  test('every section is still visible (scroll animations must not hide content)', async ({ page }) => {
+    await page.goto('/')
+    for (const id of ['about', 'products', 'why', 'certs', 'contact']) {
+      const title = page.locator(`#${id} .section__title`).first()
+      await title.scrollIntoViewIfNeeded()
+      await expect(title, `#${id} title hidden without JS`).toBeVisible()
+      expect(await title.evaluate((el) => getComputedStyle(el.closest('.reveal, .reveal--in') || el).opacity)).toBe('1')
+    }
+  })
+})
+
 test.describe('Languages (/ = Arabic, /en = English)', () => {
   test('language button goes to /en (English, LTR) and back to / (Arabic, RTL)', async ({ page }) => {
     await page.goto('/')
