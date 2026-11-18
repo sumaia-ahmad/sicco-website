@@ -191,10 +191,11 @@ test.describe('Contact', () => {
     await expect(page.locator('.wa-fab')).toHaveAttribute('href', `https://wa.me/${shared.whatsapp}`)
   })
 
-  test('map pins the plant by its exact coordinates (not a text search)', async ({ page }) => {
+  test('map shows the SICCO place on Google Maps (not a text search)', async ({ page }) => {
     await page.goto('/')
     const src = await page.locator('.contact__map iframe').getAttribute('src')
-    expect(src).toContain(`q=${shared.mapCoords}`)
+    expect(src).toContain(`cid=${shared.mapPlaceCid}`)
+    expect(src).not.toContain('q=')
   })
 
   test('phone, fax and email are shown', async ({ page }) => {

@@ -84,7 +84,7 @@ export default function Contact({ t }) {
           <span className="contact__map-label">{t.contact.mapLabel}</span>
           <iframe
             title={t.contact.mapLabel}
-            src={`https://www.google.com/maps?q=${shared.mapCoords}&z=16&output=embed`}
+            src={`https://maps.google.com/maps?cid=${shared.mapPlaceCid}&z=16&output=embed`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             allowFullScreen
