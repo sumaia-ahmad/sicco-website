@@ -15,8 +15,11 @@ export const shared = {
   phone: '+963 11 635 2501/2/3/4',
   phoneHref: '+963116352501',
   fax: '+963 11 635 2500',
-  // Google-Maps search query for the address (used by the embedded map).
-  mapQuery: 'ريف دمشق حوش بلاس مقابل مشفى السلام',
+  // Exact location of the plant (lat,lng) for the embedded map's pin.
+  // Matches the "SICCO" place on Google Maps, in the industrial area across the
+  // Damascus–Daraa highway from Al-Salam Hospital (Housh Blass). Don't use a
+  // text search here: Google resolves "SICCO" to an unrelated company abroad.
+  mapCoords: '33.44721,36.27088',
   // WhatsApp number in international format, digits only (no +, no spaces).
   // TODO: replace this placeholder with the real company WhatsApp number.
   whatsapp: '963900000000',
